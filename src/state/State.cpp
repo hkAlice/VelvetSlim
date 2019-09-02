@@ -54,13 +54,8 @@ void Velvet::State::executeCommandList()
     }
 }*/
 
-
-void Velvet::State::executeCommandList()
+void Velvet::State::renderModels()
 {
-    Velvet::Pixel pTest = { 0, 0, 255, 255 };
-    Velvet::Pixel pTest2 = { 0, 255, 0, 255 };
-    Velvet::Pixel pTest3 = { 255, 0, 0, 255 };
-
     Vec3 trianglePos[3];
     Vec3    wTrigPos[3];
 
@@ -112,11 +107,19 @@ void Velvet::State::executeCommandList()
             } 
         }
     }
+}
 
-    m_vRenderer.drawLine( { 0, 0 }, { 1920, 0 }, pTest, pTest2 );
-    m_vRenderer.drawLine( { 0, 1 }, { 1920, 1 }, pTest, pTest2 );
-    m_vRenderer.drawLine( { 0, 1078 }, { 1920, 1078 }, pTest, pTest2 );
-    m_vRenderer.drawLine( { 0, 1079 }, { 1920, 1079 }, pTest, pTest2 );
+void Velvet::State::executeCommandList()
+{
+    Velvet::Pixel pTest = { 0, 0, 255, 255 };
+    Velvet::Pixel pTest2 = { 0, 255, 0, 255 };
+
+    renderModels();
+
+    m_vRenderer.drawLineGradient( { 0, 0 }, { 1920, 0 }, pTest, pTest2 );
+    m_vRenderer.drawLineGradient( { 0, 1 }, { 1920, 1 }, pTest, pTest2 );
+    m_vRenderer.drawLineGradient( { 0, 1078 }, { 1920, 1078 }, pTest, pTest2 );
+    m_vRenderer.drawLineGradient( { 0, 1079 }, { 1920, 1079 }, pTest, pTest2 );
 }
 
 /*

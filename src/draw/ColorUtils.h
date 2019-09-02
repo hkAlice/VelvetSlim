@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "Pixel.h"
+#include "../data/Pixel.h"
 
 namespace Velvet
 {

@@ -6,7 +6,7 @@
 #include <thread>
 #include <vector>
 
-#include "../renderer/Renderer.h"
+#include "../draw/Renderer.h"
 #include "../parser/WaveModel.h"
 
 namespace Velvet
@@ -50,6 +50,8 @@ namespace Velvet
         float lightPos;
 
         private:
+
+        void renderModels();
 
         Velvet::Renderer& m_vRenderer;
         std::vector< Parser::WaveModel > m_models;

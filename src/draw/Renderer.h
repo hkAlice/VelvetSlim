@@ -5,7 +5,7 @@
 #include <vector>
 #include <SDL.h>
 
-#include "Pixel.h"
+#include "../data/Pixel.h"
 #include "../data/Vec2Int.h"
 #include "../data/Vec2.h"
 #include "../data/Vec3.h"

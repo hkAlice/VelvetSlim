@@ -11,7 +11,7 @@
 #include "renderer/Renderer.h"
 #include "data/Model.h"
 #include "data/Vec2Int.h"
-#include "renderer/Pixel.h"
+#include "data/Pixel.h"
 #include "data/Vec3.h"
 #include "parser/WaveModel.h"
 #include "state/State.h"

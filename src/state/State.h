@@ -8,6 +8,7 @@
 
 #include "../draw/Renderer.h"
 #include "../parser/WaveModel.h"
+#include "../object/Object.h"
 
 namespace Velvet
 {
@@ -30,7 +31,11 @@ namespace Velvet
         State( Velvet::Renderer& vRenderer );
         ~State();
 
-        void executeCommandList();
+        void initWorld();
+
+        // TODO: add object, remove object
+
+        void executeCommandList( float frametime );
 
         void executeFaceQuadrantThreadWork( int threadIndex );
 
@@ -51,10 +56,13 @@ namespace Velvet
 
         private:
 
+        void renderObjects( const float frametime );
         void renderModels();
 
         Velvet::Renderer& m_vRenderer;
         std::vector< Parser::WaveModel > m_models;
+
+        std::vector< Object > m_objects;
 
         std::vector< std::thread > m_threads;
 
@@ -62,6 +70,8 @@ namespace Velvet
 
         std::condition_variable m_renderStep;
         std::condition_variable m_renderDone;
+
+        uint64_t m_currFrame;
 
         bool m_renderReady = false;
     };

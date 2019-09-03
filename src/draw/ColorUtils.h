@@ -59,6 +59,11 @@ namespace Velvet
             pixel.g = g * 255;
             pixel.b = b * 255;
       }
+
+      static Pixel randomPixelColor()
+      {
+        return { rand() % 255, rand() % 255, rand() % 255, 255 };
+      }
    }
 }
 #endif // _COLORUTILS

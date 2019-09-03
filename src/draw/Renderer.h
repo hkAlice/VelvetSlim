@@ -26,7 +26,7 @@ namespace Velvet
         // Solid line
         void drawLine( Vec2Int p0, Vec2Int p1, Pixel color );
         // Gradient line
-        void drawLine( Vec2Int p0, Vec2Int p1, Pixel color1, Pixel color2 );
+        void drawLineGradient( Vec2Int p0, Vec2Int p1, Pixel color1, Pixel color2 );
 
         void drawTriangle( Vec3& v0, Vec3& v1, Vec3& v2, Pixel& color );
 

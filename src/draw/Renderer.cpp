@@ -40,7 +40,7 @@ Velvet::Renderer::Renderer( SDL_Renderer *sdlRenderer )
         (
             m_sdlRenderer,
             SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_STREAMING,
+            SDL_TEXTUREACCESS_TARGET,
             VRENDER_WIDTH, VRENDER_HEIGHT
         );
 

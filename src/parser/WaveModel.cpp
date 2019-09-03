@@ -67,7 +67,7 @@ Velvet::Parser::WaveModel::WaveModel( const std::string& path )
                if( stringstream.peek() == '/' ) {
                   stringstream.get();
                   stringstream >> n >> std::ws;
-                  f.normal.push_back( n - 1 );
+                  f.normals.push_back( n - 1 );
                }
                else {
                   stringstream >> t >> std::ws;
@@ -75,7 +75,7 @@ Velvet::Parser::WaveModel::WaveModel( const std::string& path )
                   if( stringstream.peek() == '/' ) {
                      stringstream.get();
                      stringstream >> n >> std::ws;
-                     f.normal.push_back( n - 1 );
+                     f.normals.push_back( n - 1 );
                   }
                }
             }

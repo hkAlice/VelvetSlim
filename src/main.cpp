@@ -8,7 +8,7 @@
 #include "../libs/termcolor/termcolor.hpp"
 
 #include "logger/Logger.h"
-#include "renderer/Renderer.h"
+#include "draw/Renderer.h"
 #include "data/Model.h"
 #include "data/Vec2Int.h"
 #include "data/Pixel.h"
@@ -24,7 +24,7 @@ bool initializeSDLWindow( SDL_Window *&window, std::uint32_t width, std::uint32_
 	window = SDL_CreateWindow(
 		"Velvet",
 		SDL_WINDOWPOS_UNDEFINED,
-      SDL_WINDOWPOS_UNDEFINED,
+    SDL_WINDOWPOS_UNDEFINED,
 		width,
 		height,
 		0
@@ -74,11 +74,8 @@ int main( int argc, char *argv[] )
   Velvet::Renderer vRenderer = Velvet::Renderer( sdlRenderer );
   Velvet::State vState( vRenderer );
 
-  if( argc > 1 )
-    vState.loadModel( argv[1] );
+  vState.initWorld();
 
-	
-  vState.executeCommandList();
 
   while( loop )
   {
@@ -132,7 +129,7 @@ int main( int argc, char *argv[] )
       }
     }
 
-    vState.executeCommandList();
+    vState.executeCommandList( frametime );
     vRenderer.render();
   }
 

@@ -10,6 +10,7 @@ if( MSVC OR MSYS OR MINGW )
     set(CMAKE_CXX_FLAGS "/O3")
 else()
   set(CMAKE_CXX_FLAGS "-O3 -march=native")
+  #set(CMAKE_CXX_FLAGS "-ggdb -g -pg -O0 -pthread")
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -56,7 +57,8 @@ file( GLOB VELVET_INCLUDE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/*.h
         src/data/*.h
         src/parser/*.h
-        src/renderer/*.h
+        src/object/*.h
+        src/draw/*.h
         src/state/*.h
 )
 
@@ -64,7 +66,8 @@ file( GLOB VELVET_SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/*.cpp
         src/data/*.cpp
         src/parser/*.cpp
-        src/renderer/*.cpp
+        src/object/*.cpp
+        src/draw/*.cpp
         src/state/*.cpp
 )
 

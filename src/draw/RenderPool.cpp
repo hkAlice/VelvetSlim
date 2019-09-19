@@ -41,7 +41,10 @@ void Velvet::RenderPool::cycle( std::vector< Velvet::ObjectPtr >& objList )
 
         std::unique_lock< std::mutex > lg( m_jobMutex );
 
-        m_frameStepCv.wait(lg, [this]{ return m_jobQueue.size() <= 1; });
+        // TODO: m_jobQueue may empty, but it doesn't mean thread is done processing.
+        // solution: from worker, signal that rendering is done
+
+        m_frameStepCv.wait(lg, [this]{ return m_jobQueue.empty(); });
 
         for( const auto& pObj : objList )
         {

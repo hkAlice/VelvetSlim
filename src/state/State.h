@@ -9,6 +9,7 @@
 #include "../draw/Renderer.h"
 #include "../parser/WaveModel.h"
 #include "../object/Object.h"
+#include "../draw/RenderPool.h"
 
 namespace Velvet
 {
@@ -62,14 +63,9 @@ namespace Velvet
         Velvet::Renderer& m_vRenderer;
         std::vector< Parser::WaveModel > m_models;
 
-        std::vector< Object > m_objects;
+        std::vector< ObjectPtr > m_pObjects;
 
-        std::vector< std::thread > m_threads;
-
-        std::mutex m_mtx;
-
-        std::condition_variable m_renderStep;
-        std::condition_variable m_renderDone;
+        Velvet::RenderPool m_renderPool;
 
         uint64_t m_currFrame;
 

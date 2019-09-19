@@ -9,7 +9,7 @@ endif()
 if( MSVC OR MSYS OR MINGW )
     set(CMAKE_CXX_FLAGS "/O3")
 else()
-  set(CMAKE_CXX_FLAGS "-O3 -march=native")
+  set(CMAKE_CXX_FLAGS "-O3 -march=native -pthread")
   #set(CMAKE_CXX_FLAGS "-ggdb -g -pg -O0 -pthread")
 endif()
 

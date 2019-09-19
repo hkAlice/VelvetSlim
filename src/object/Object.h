@@ -1,11 +1,9 @@
 #ifndef _OBJECT
 #define _OBJECT
 
-#include <mutex>
-#include <condition_variable>
-#include <thread>
 #include <vector>
 #include <functional>
+#include <memory>
 
 namespace Velvet
 {
@@ -33,6 +31,8 @@ namespace Velvet
         std::function<void()> m_workFunc;
 
     };
+
+    using ObjectPtr = std::shared_ptr< Object >;
 }
 
 

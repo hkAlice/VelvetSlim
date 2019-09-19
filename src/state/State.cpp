@@ -24,19 +24,30 @@ Velvet::State::~State()
 
 void Velvet::State::initWorld()
 {
-  Object boxTestObj;
-  boxTestObj.setWorkFunction( [&]()
+
+  for( int x = 0; x < 500; ++x )
   {
+    Velvet::ObjectPtr boxTestObj = std::make_shared< Velvet::Object >();
+    boxTestObj->setWorkFunction( [&]()
+    {
 
-    Pixel boxColor = { 240, 50, 95, 255 };
+      Pixel boxColor = { 240, 50, 95, 255 };
 
-    m_vRenderer.drawLine( { 200, 200 }, { 400, 200 }, boxColor );
-    m_vRenderer.drawLine( { 400, 200 }, { 400, 400 }, boxColor );
-    m_vRenderer.drawLine( { 400, 400 }, { 200, 400 }, boxColor );
-    m_vRenderer.drawLine( { 200, 400 }, { 200, 200 }, boxColor );
-  });
+      for( int i = 0; i < 1000; ++i ) {
+        m_vRenderer.drawLine( { 200, 200 }, { i, 200 }, boxColor );
+        m_vRenderer.drawLine( { i, 200 }, { 400, 400 }, boxColor );
+        m_vRenderer.drawLine( { i, i }, { 200, i }, boxColor );
+        m_vRenderer.drawLine( { 200, 400 }, { 200, 200 }, boxColor );
+      }
 
-  m_objects.push_back( boxTestObj );
+      m_vRenderer.drawLine( { 200, 200 }, { 400, 200 }, boxColor );
+      m_vRenderer.drawLine( { 400, 200 }, { 400, 400 }, boxColor );
+      m_vRenderer.drawLine( { 400, 400 }, { 200, 400 }, boxColor );
+      m_vRenderer.drawLine( { 200, 400 }, { 200, 200 }, boxColor );
+    });
+
+    m_pObjects.push_back( boxTestObj );
+  }
 }
 
 void Velvet::State::loadModel( const std::string& path )
@@ -131,18 +142,31 @@ y0 = tmpV * std::cos( camera.pitch ) + y0 * std::cos( camera.pitch );*/
 
 void Velvet::State::renderObjects( const float frametime )
 {
-  for( auto& obj : m_objects )
+  /*
+  for( auto& obj : m_pObjects )
   {
-    obj.render();
+    m_threads.push_back( std::thread( &Velvet::Object::render, obj ) );
   }
+
+  for( auto& thread : m_threads )
+  {
+    if( thread.joinable() )
+      thread.join();
+  }*/
+
+  for( auto& pObj : m_pObjects )
+    pObj->render();
 }
 
 void Velvet::State::executeCommandList( float frametime )
 {
   m_currFrame++;
 
+  /*
   renderObjects( frametime );
-  renderModels();
+  renderModels();*/
+
+  m_renderPool.cycle( m_pObjects );
 
 }
 

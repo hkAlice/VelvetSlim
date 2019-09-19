@@ -23,7 +23,7 @@ namespace Velvet
 
         private:
 
-        uint64_t m_threadCount { 1 }; // get hw threadcount and/or pass as arg to ctor
+        uint64_t m_threadCount { 8 }; // get hw threadcount and/or pass as arg to ctor
 
         void renderObjects( const float frametime );
         void renderModels();

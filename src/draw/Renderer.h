@@ -20,7 +20,7 @@ namespace Velvet
     {
     public:
         Renderer( SDL_Renderer *sdlRenderer );
-        ~Renderer(){};
+        ~Renderer();
 
         void drawPixel( int x, int y, Pixel& pixel );
         // Solid line

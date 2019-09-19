@@ -25,7 +25,7 @@ Velvet::State::~State()
 void Velvet::State::initWorld()
 {
 
-  for( int x = 0; x < 500; ++x )
+  for( int x = 0; x < 10; ++x )
   {
     Velvet::ObjectPtr boxTestObj = std::make_shared< Velvet::Object >();
     boxTestObj->setWorkFunction( [&]()
@@ -33,7 +33,8 @@ void Velvet::State::initWorld()
 
       Pixel boxColor = { 240, 50, 95, 255 };
 
-      for( int i = 0; i < 1000; ++i ) {
+      for( int i = 0; i < 1000; ++i ) 
+      {
         m_vRenderer.drawLine( { 200, 200 }, { i, 200 }, boxColor );
         m_vRenderer.drawLine( { i, 200 }, { 400, 400 }, boxColor );
         m_vRenderer.drawLine( { i, i }, { 200, i }, boxColor );
@@ -68,21 +69,7 @@ void Velvet::State::loadModel( const std::string& path )
     //m_threads[i].detach();
   }*/
 }
-/*
-void Velvet::State::executeCommandList()
-{
-  int renderThreadsDoneCount = 0;
 
-  m_renderStep.notify_all();
-
-  while( renderThreadsDoneCount != m_threads.size() )
-  {
-    std::unique_lock<std::mutex> mlock(m_mtx);
-    m_renderDone.wait(mlock);
-
-    renderThreadsDoneCount++;
-  }
-}*/
 
 void Velvet::State::renderModels()
 {
@@ -162,44 +149,8 @@ void Velvet::State::executeCommandList( float frametime )
 {
   m_currFrame++;
 
-  /*
-  renderObjects( frametime );
-  renderModels();*/
+  //renderObjects( frametime );
+  //renderModels();
 
   m_renderPool.cycle( m_pObjects );
-
 }
-
-/*
-void Velvet::State::executeFaceQuadrantThreadWork( int threadIndex )
-{
-while(1)
-{
-std::unique_lock<std::mutex> mlock(m_mtx);
-m_renderStep.wait(mlock);
-for( auto& model : m_models )
-{
-auto fCount = model.getFaceCount();
-
-for( uint64_t i = (fCount / 4) * threadIndex; i < (fCount / 4) * (threadIndex + 1); ++i ) 
-{ 
-Velvet::Face face = model.getFaceAt( i ); 
-for ( uint64_t j = 0; j < 3; ++j ) 
-{ 
-Velvet::Vec3 v0 = model.getVertAt( face.vertex[j] ); 
-Velvet::Vec3 v1 = model.getVertAt( ( face.vertex[( j+1 ) % 3] ) ); 
-int x0 = (v0.x)*120/2.; 
-int y0 = (v0.y)*120/2.;
-int x1 = (v1.x)*120/2.;
-int y1 = (v1.y)*120/2.;
-x0 = (x0 - camera.x) * camera.z;
-x1 = (x1 - camera.x) * camera.z;
-y0 = (y0 - camera.y) * camera.z;
-y1 = (y1 - camera.y) * camera.z;
-m_vRenderer.drawLine( { x0, y0 }, { x1, y1 }, { 0, 0, 255, 255 } );
-} 
-}
-}
-m_renderDone.notify_one();
-}
-}*/

@@ -25,7 +25,7 @@ Velvet::State::~State()
 void Velvet::State::initWorld()
 {
 
-  for( int x = 0; x < 10; ++x )
+  for( int x = 0; x < 50; ++x )
   {
     Velvet::ObjectPtr boxTestObj = std::make_shared< Velvet::Object >();
     boxTestObj->setWorkFunction( [&]()

@@ -6,7 +6,7 @@ Velvet::RenderPool::RenderPool()
 	: m_active( true )
 {
     Logger::info( "RenderPool threads: [" + std::to_string( m_threadCount ) + "]" );
-    
+
 	for( int i = 0; i < m_threadCount; ++i )
 	{
 		auto renderTh = Velvet::RenderThread( m_threadCtx );
@@ -45,15 +45,9 @@ void Velvet::RenderPool::cycle( std::vector< Velvet::ObjectPtr >& objList )
 		//m_threadCtx.renderCount = 0;
 	}
 
-	Logger::warn("done rendering: " + std::to_string(m_threadCtx.jobQueue.size()));
-
 	{
         std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );
-
-        Logger::info(std::to_string(m_threadCtx.renderCount));
 		m_threadCtx.renderCount = 0;
-
-		Logger::info("s: " + std::to_string(m_threadCtx.jobQueue.size()));
     }
 
 }

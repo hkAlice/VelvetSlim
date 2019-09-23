@@ -22,7 +22,7 @@ namespace Velvet
         std::mutex& jobMutex;
         std::queue< Velvet::ObjectPtr >& jobQueue;
 
-        std::atomic< uint64_t > renderCount{ 0 };
+        std::atomic_uint_fast64_t renderCount{ 0 };
 
         bool active;
 	};

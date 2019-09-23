@@ -10,6 +10,7 @@
 
 #include "../draw/Renderer.h"
 #include "../object/Object.h"
+#include "ThreadCtx.h"
 
 namespace Velvet
 {
@@ -17,17 +18,14 @@ namespace Velvet
     {
         public:
 
-        RenderThread( std::queue< Velvet::ObjectPtr >& jobQueue, std::mutex& jobMutex, std::condition_variable& frameStepCv, bool active );
+        RenderThread( Velvet::ThreadCtx& threadCtx );
         ~RenderThread();
 
         void run();
 
         private:
 
-        std::condition_variable& m_frameStepCv;
-
-        std::mutex& m_jobMutex;
-        std::queue< Velvet::ObjectPtr >& m_jobQueue;
+        Velvet::ThreadCtx& m_threadCtx;
 
         bool m_active;
 

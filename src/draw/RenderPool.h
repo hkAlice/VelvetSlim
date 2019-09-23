@@ -9,6 +9,7 @@
 
 #include "RenderThread.h"
 #include "../object/Object.h"
+#include "ThreadCtx.h"
 
 namespace Velvet
 {
@@ -23,7 +24,7 @@ namespace Velvet
 
         private:
 
-        uint64_t m_threadCount { 1 }; // get hw threadcount and/or pass as arg to ctor
+        uint64_t m_threadCount { 4 }; // get hw threadcount and/or pass as arg to ctor
 
         void renderObjects( const float frametime );
         void renderModels();
@@ -35,6 +36,8 @@ namespace Velvet
 
         std::mutex m_jobMutex;
         std::queue< Velvet::ObjectPtr > m_jobQueue;
+
+        Velvet::ThreadCtx m_threadCtx{ m_jobQueue, m_jobMutex, m_frameStepCv };
 
         bool m_active;
     };

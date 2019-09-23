@@ -1,7 +1,7 @@
 #include "RenderThread.h"
 
-Velvet::RenderThread::RenderThread( std::queue< Velvet::ObjectPtr >& jobQueue, std::mutex& jobMutex, std::condition_variable& frameStepCv, bool active )
-	: m_jobQueue( jobQueue ), m_jobMutex( jobMutex ), m_frameStepCv( frameStepCv ), m_active( active )
+Velvet::RenderThread::RenderThread( Velvet::ThreadCtx& threadCtx )
+	: m_threadCtx( threadCtx )
 {
 	
 }
@@ -17,12 +17,17 @@ void Velvet::RenderThread::run()
     {
     	Velvet::ObjectPtr pObj;
         {
-            std::unique_lock< std::mutex > lock( m_jobMutex );
+            std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );
 
-            m_frameStepCv.wait(lock, [this]{return !m_jobQueue.empty() || !m_active; });
-            pObj = m_jobQueue.front();
-            m_jobQueue.pop();
+            if( m_threadCtx.jobQueue.size() == 0 )
+            	m_threadCtx.renderCount++;
+
+            m_threadCtx.frameStepCv.wait(lock, [this]{return !m_threadCtx.jobQueue.empty(); });
+            pObj = m_threadCtx.jobQueue.front();
+            m_threadCtx.jobQueue.pop();
         }
         pObj->render();
+
+        
     }
 }

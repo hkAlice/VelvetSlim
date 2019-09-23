@@ -18,6 +18,8 @@ using namespace Velvet;
 #undef min
 #undef max
 
+static uint64_t frameCount = 0;
+
 /* 
    TODO: More research on why pixel format 
    affects performance this much
@@ -48,8 +50,14 @@ Velvet::Renderer::Renderer( SDL_Renderer *sdlRenderer )
    m_zbuffer = std::vector< float >( VRENDER_WIDTH * VRENDER_HEIGHT, std::numeric_limits< float >::min() );
 }
 
+Velvet::Renderer::~Renderer()
+{
+
+}
+
 void Velvet::Renderer::render()
 {
+
     SDL_UpdateTexture
         (
             m_texture,
@@ -64,6 +72,7 @@ void Velvet::Renderer::render()
     memset( m_buffer.data(), 0, sizeof( Pixel ) * VRENDER_WIDTH * VRENDER_HEIGHT );
     memset( m_zbuffer.data(), std::numeric_limits< float >::min(), sizeof( float ) * VRENDER_WIDTH * VRENDER_HEIGHT );
     //std::fill( m_buffer.begin(), m_buffer.end(), 0 );
+
 }
 
 void Velvet::Renderer::drawPixel( int x, int y, Pixel& pixel )

@@ -5,6 +5,8 @@
 Velvet::RenderPool::RenderPool()
 	: m_active( true )
 {
+    Logger::info( "RenderPool threads: [" + std::to_string( m_threadCount ) + "]" );
+    
 	for( int i = 0; i < m_threadCount; ++i )
 	{
 		auto renderTh = Velvet::RenderThread( m_threadCtx );

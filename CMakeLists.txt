@@ -22,7 +22,7 @@ set(EXECUTABLE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 if( NOT UNIX )
-	set( ZLIB_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/zlib/x86 )
+	set( ZLIB_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/zlib/x64 )
 endif( NOT UNIX )
 
 find_file( SDL2_INCLUDE_DIR NAME SDL.h HINTS SDL2 )
@@ -35,10 +35,10 @@ set( SDL2_SOUND_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_mixer/include 
 
 if( NOT SDL2_LIBRARY )
 
-    set( SDL2_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2/lib/x86 )
-    set( SDL2_IMAGE_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_image/lib/x86 )
-    set( SDL2_TTF_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_ttf/lib/x86 )
-    set( SDL2_SOUND_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_mixer/lib/x86 )
+    set( SDL2_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2/lib/x64 )
+    set( SDL2_IMAGE_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_image/lib/x64 )
+    set( SDL2_TTF_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_ttf/lib/x64 )
+    set( SDL2_SOUND_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2_mixer/lib/x64 )
 
 endif()
 
@@ -46,7 +46,7 @@ link_directories(${SDL2_LIBRARY} )
 link_directories(${SDL2_IMAGE_LIBRARY})
 link_directories(${SDL2_TTF_LIBRARY})
 link_directories(${SDL2_SOUND_LIBRARY})
-link_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/zlib/x86)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/zlib/x64)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/bin/bin)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/src )

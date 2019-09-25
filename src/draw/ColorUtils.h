@@ -62,7 +62,10 @@ namespace Velvet
 
       static Pixel randomPixelColor()
       {
-        return { rand() % 255, rand() % 255, rand() % 255, 255 };
+        return { static_cast< uint8_t >( rand() % 255 ), 
+                 static_cast< uint8_t >( rand() % 255 ), 
+                 static_cast< uint8_t >( rand() % 255 ), 
+                 255 };
       }
    }
 }

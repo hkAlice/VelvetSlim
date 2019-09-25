@@ -24,8 +24,8 @@ Velvet::State::~State()
 
 void Velvet::State::initWorld()
 {
-
-  for( int x = 0; x < 50; ++x )
+/*
+  for( int x = 0; x < 15; ++x )
   {
     Velvet::ObjectPtr boxTestObj = std::make_shared< Velvet::Object >();
     boxTestObj->setWorkFunction( [&]()
@@ -48,7 +48,42 @@ void Velvet::State::initWorld()
     });
 
     m_pObjects.push_back( boxTestObj );
-  }
+  }*/
+
+  Velvet::ObjectPtr fractal = std::make_shared< Velvet::Object >();
+  fractal->setWorkFunction( [&]()
+  {
+    std::function<void( Velvet::Vec2Int, uint32_t, uint32_t )> fractalDraw;
+    fractalDraw = [&]( Velvet::Vec2Int pos, uint32_t size, uint32_t steps )
+    {
+      if (steps == 0)
+        return;
+
+      Pixel fractalColor = { 230, 40, 90, 255 };
+
+      uint32_t x = pos.x;
+      uint32_t y = pos.y;
+
+      m_vRenderer.drawLine( {x, y}, {x, y + size}, fractalColor); //right
+      m_vRenderer.drawLine( {x, y + size / 2}, {x + size, y + size / 2}, fractalColor); //middle
+      m_vRenderer.drawLine( {x + size, y}, {x + size, y + size}, fractalColor); //left
+
+      //TopLeft
+      fractalDraw( { x - size / 4,y + size * 3 / 4 }, size / 2, steps - 1);
+      //BottomLeft
+      fractalDraw( { x - size / 4, y - size / 4 }, size / 2, steps - 1);
+      //TopRight
+      fractalDraw( { x + size * 3 / 4, y + size * 3 / 4 }, size / 2, steps - 1);
+      //BottomRight
+      fractalDraw( { x + size * 3 / 4, y - size / 4 }, size / 2, steps - 1);
+      };
+
+      fractalDraw( { 300, 300 }, 200, 50 );
+  });
+
+  m_pObjects.push_back( fractal );
+
+  
 }
 
 void Velvet::State::loadModel( const std::string& path )
@@ -149,8 +184,8 @@ void Velvet::State::executeCommandList( float frametime )
 {
   m_currFrame++;
 
-  //renderObjects( frametime );
+  renderObjects( frametime );
   //renderModels();
 
-  m_renderPool.cycle( m_pObjects );
+  //m_renderPool.cycle( m_pObjects );
 }

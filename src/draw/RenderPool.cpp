@@ -26,6 +26,11 @@ Velvet::RenderPool::~RenderPool()
 {
 	Logger::info("Shutting down render pool");
 	m_active = false;
+
+   for( auto& thread : m_threads )
+   {
+      thread.join();
+   }
 	m_frameStepCv.notify_all();
 }
 
@@ -40,13 +45,14 @@ void Velvet::RenderPool::cycle( std::vector< Velvet::ObjectPtr >& objList )
 
 	while( m_threadCtx.renderCount < m_threadCount )
 	{
+      m_frameStepCv.notify_all();
 		std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 		//Logger::info(std::to_string(m_threadCtx.renderCount));
 		//m_threadCtx.renderCount = 0;
 	}
 
 	{
-        std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );
+      std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );
 		m_threadCtx.renderCount = 0;
     }
 

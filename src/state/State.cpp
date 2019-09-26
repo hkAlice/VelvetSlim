@@ -1,7 +1,11 @@
-#include "../logger/Logger.h"
+﻿#include "../logger/Logger.h"
 #include <cmath>
+#include <math.h>
 #include "State.h"
 #include "../draw/ColorUtils.h"
+
+#define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0)
+#define radToDeg(angleInRadians) ((angleInRadians) * 180.0 / M_PI)
 
 Velvet::State::State( Velvet::Renderer& vRenderer )
 : m_vRenderer( vRenderer )
@@ -49,39 +53,49 @@ void Velvet::State::initWorld()
 
     m_pObjects.push_back( boxTestObj );
   }*/
+  static float controlTime = 0.f;
 
   Velvet::ObjectPtr fractal = std::make_shared< Velvet::Object >();
   fractal->setWorkFunction( [&]()
   {
-    std::function<void( Velvet::Vec2Int, uint32_t, uint32_t )> fractalDraw;
-    fractalDraw = [&]( Velvet::Vec2Int pos, uint32_t size, uint32_t steps )
+    // Lévy C curve
+    // adapted from: https://en.wikipedia.org/wiki/L%C3%A9vy_C_curve
+
+    std::function<void( double, double, double, double, int )> c_curve;
+    c_curve = [&]( double x, double y, double len, double alpha_angle, int iteration_n  )
     {
-      if (steps == 0)
-        return;
+       double fx = x;
+       double fy = y;
+       double length = len;
+       double alpha = alpha_angle;
+       int it_n = iteration_n;
+       if( it_n > 0 ) 
+       {
+          length = ( length / std::sqrt( 2 ) );
+          c_curve( fx, fy, length, ( alpha + 45 ), ( it_n - 1 ) );
+          fx = ( fx + ( length * std::cos( degToRad( alpha + 45 ) ) ) );
+          fy = ( fy + ( length * std::sin( degToRad( alpha + 45 ) ) ) );
+          c_curve( fx, fy, length, ( alpha - 45 ), ( it_n - 1 ) );
+       }
+       else 
+       {
+          Pixel c1 = { 128, 0, 255, 255 };//Velvet::ColorUtils::randomPixelColor();
+          Vec2Int p1 = { ( int )fx, ( int )fy };
+          Vec2Int p2 = { ( int )( fx + ( length * std::cos( degToRad( alpha ) ) ) ), ( int )( fy + ( length * std::sin( degToRad( alpha ) ) ) ) };
+          m_vRenderer.drawLine( p1, p2, c1 );
+       }
+    };
 
-      Pixel fractalColor = { 230, 40, 90, 255 };
+    c_curve( 400, 280, 720, 0, (int)controlTime % 17 );
 
-      uint32_t x = pos.x;
-      uint32_t y = pos.y;
+    controlTime += 0.15;
 
-      m_vRenderer.drawLine( {x, y}, {x, y + size}, fractalColor); //right
-      m_vRenderer.drawLine( {x, y + size / 2}, {x + size, y + size / 2}, fractalColor); //middle
-      m_vRenderer.drawLine( {x + size, y}, {x + size, y + size}, fractalColor); //left
-
-      //TopLeft
-      fractalDraw( { x - size / 4,y + size * 3 / 4 }, size / 2, steps - 1);
-      //BottomLeft
-      fractalDraw( { x - size / 4, y - size / 4 }, size / 2, steps - 1);
-      //TopRight
-      fractalDraw( { x + size * 3 / 4, y + size * 3 / 4 }, size / 2, steps - 1);
-      //BottomRight
-      fractalDraw( { x + size * 3 / 4, y - size / 4 }, size / 2, steps - 1);
-      };
-
-      fractalDraw( { 300, 300 }, 200, 50 );
+    if( controlTime > 400 )
+       controlTime = 0;
   });
 
-  m_pObjects.push_back( fractal );
+  for( int i = 0; i < 16; ++i )
+   m_pObjects.push_back( fractal );
 
   
 }
@@ -164,18 +178,6 @@ y0 = tmpV * std::cos( camera.pitch ) + y0 * std::cos( camera.pitch );*/
 
 void Velvet::State::renderObjects( const float frametime )
 {
-  /*
-  for( auto& obj : m_pObjects )
-  {
-    m_threads.push_back( std::thread( &Velvet::Object::render, obj ) );
-  }
-
-  for( auto& thread : m_threads )
-  {
-    if( thread.joinable() )
-      thread.join();
-  }*/
-
   for( auto& pObj : m_pObjects )
     pObj->render();
 }
@@ -184,8 +186,8 @@ void Velvet::State::executeCommandList( float frametime )
 {
   m_currFrame++;
 
-  renderObjects( frametime );
+  //renderObjects( frametime );
   //renderModels();
 
-  //m_renderPool.cycle( m_pObjects );
+  m_renderPool.cycle( m_pObjects );
 }

@@ -15,7 +15,7 @@ void Velvet::RenderThread::run()
 {
 	while(true)
     {
-    	Velvet::ObjectPtr pObj;
+    	  Velvet::ObjectPtr pObj;
         {
             std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );
 

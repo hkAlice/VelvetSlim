@@ -43,13 +43,24 @@ void Velvet::RenderPool::cycle( std::vector< Velvet::ObjectPtr >& objList )
 
 	m_frameStepCv.notify_all();
 
-	while( m_threadCtx.renderCount < m_threadCount )
+	while( m_threadCtx.renderCount < m_threadCount - 1 )
 	{
-      m_frameStepCv.notify_all();
+      m_waitTimeout++;
+
+      if( m_waitTimeout > m_maxWaitTimeout )
+      {
+         Logger::warn( "Wait timeout - thread deadlock or took too long to process" );
+         Logger::warn( "Job queue size: " + std::to_string( m_threadCtx.jobQueue.size() ) + ", renderCount: " + std::to_string( m_threadCtx.renderCount ) );
+         break;
+      }
+         
 		std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 		//Logger::info(std::to_string(m_threadCtx.renderCount));
 		//m_threadCtx.renderCount = 0;
+
 	}
+
+   m_waitTimeout = 0;
 
 	{
       std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );

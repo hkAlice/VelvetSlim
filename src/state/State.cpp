@@ -94,9 +94,7 @@ void Velvet::State::initWorld()
        controlTime = 0;
   });
 
-  for( int i = 0; i < 16; ++i )
-   m_pObjects.push_back( fractal );
-
+  m_pObjects.push_back( fractal );
   
 }
 

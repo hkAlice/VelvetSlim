@@ -22,7 +22,7 @@ void Velvet::RenderThread::run()
             if( m_threadCtx.jobQueue.size() == 0 )
             	m_threadCtx.renderCount++;
 
-            m_threadCtx.frameStepCv.wait(lock, [this]{return !m_threadCtx.jobQueue.empty(); });
+            m_threadCtx.frameStepCv.wait(lock, [this]{ return !m_threadCtx.jobQueue.empty(); });
             pObj = m_threadCtx.jobQueue.front();
             m_threadCtx.jobQueue.pop();
         }

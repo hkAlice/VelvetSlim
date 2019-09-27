@@ -78,7 +78,7 @@ void Velvet::State::initWorld()
       fractalDraw( { x + size * 3 / 4, y - size / 4 }, size / 2, steps - 1);
       };
 
-      fractalDraw( { 300, 300 }, 200, 50 );
+      fractalDraw( { 300, 300 }, 400, 50 );
   });
 
   m_pObjects.push_back( fractal );

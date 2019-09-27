@@ -31,6 +31,8 @@ Velvet::RenderPool::~RenderPool()
    {
       thread.join();
    }
+
+
 	m_frameStepCv.notify_all();
 }
 
@@ -62,6 +64,7 @@ void Velvet::RenderPool::cycle( std::vector< Velvet::ObjectPtr >& objList )
 
    m_waitTimeout = 0;
 
+   // todo: is this needed?
 	{
       std::unique_lock< std::mutex > lock( m_threadCtx.jobMutex );
 		m_threadCtx.renderCount = 0;

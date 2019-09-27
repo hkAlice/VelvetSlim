@@ -95,7 +95,17 @@ void Velvet::State::initWorld()
 
   });
 
-  m_pObjects.push_back( fractal );
+  //m_pObjects.push_back( fractal );
+
+  auto imgTest = std::make_shared< Velvet::Object >();
+  imgTest->setWorkFunction( [&]()
+  {
+      Logger::info( "awaa" );
+      auto pImg = m_resMgr.get< Velvet::Image >( "yo000205.bmp" );
+	   m_vRenderer.drawImage( pImg );
+  });
+
+  m_pObjects.push_back( imgTest );
   
 }
 
@@ -185,8 +195,8 @@ void Velvet::State::executeCommandList( float frametime )
 {
   m_currFrame++;
 
-  //renderObjects( frametime );
+  renderObjects( frametime );
   //renderModels();
 
-  m_renderPool.cycle( m_pObjects );
+  //m_renderPool.cycle( m_pObjects );
 }

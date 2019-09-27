@@ -10,6 +10,7 @@
 #include "../parser/WaveModel.h"
 #include "../object/Object.h"
 #include "../draw/RenderPool.h"
+#include "../resource/ResourceManager.h"
 
 namespace Velvet
 {
@@ -38,17 +39,7 @@ namespace Velvet
 
         void executeCommandList( float frametime );
 
-        void executeFaceQuadrantThreadWork( int threadIndex );
-
         void loadModel( const std::string& path );
-
-        // TODO: Object class and system
-        // Every entity that has a position in the render scene
-        // is an object with something associated to it 
-        // eg a model, etc.
-
-        // Maybe object should hold a function of draw actions to process?
-        // ex. []( RendererPtr vR, Stack& st ) { vR->drawLine(300,300, ...) };
         
         Camera camera;
 
@@ -70,6 +61,8 @@ namespace Velvet
         uint64_t m_currFrame;
 
         bool m_renderReady = false;
+
+        Velvet::ResourceManager m_resMgr{ m_vRenderer.getInternalRenderer() };
     };
 }
 

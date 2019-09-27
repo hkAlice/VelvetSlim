@@ -7,7 +7,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if( MSVC OR MSYS OR MINGW )
-    set(CMAKE_CXX_FLAGS "/O3")
+    set(CMAKE_CXX_FLAGS "/O3 /std:c++17")
 else()
   set(CMAKE_CXX_FLAGS "-O3 -march=native -pthread")
   #set(CMAKE_CXX_FLAGS "-ggdb -g -pg -O0 -pthread")
@@ -60,6 +60,7 @@ file( GLOB VELVET_INCLUDE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/object/*.h
         src/draw/*.h
         src/state/*.h
+        src/resource/*.h
 )
 
 file( GLOB VELVET_SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
@@ -69,6 +70,7 @@ file( GLOB VELVET_SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/object/*.cpp
         src/draw/*.cpp
         src/state/*.cpp
+        src/resource/*.cpp
 )
 
 
@@ -78,5 +80,6 @@ target_include_directories( velvet PUBLIC ../${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories( velvet PUBLIC ${SDL2_INCLUDE_DIR} )
 target_include_directories( velvet PUBLIC ${SDL2_IMAGE_INCLUDE_DIR} )
 target_include_directories( velvet PUBLIC ${SDL2_TTF_INCLUDE_DIR} )
+target_include_directories( velvet PUBLIC ${SDL2_SOUND_INCLUDE_DIR} )
 
-target_link_libraries( velvet SDL2main SDL2 )
+target_link_libraries( velvet SDL2main SDL2 SDL2_image SDL2_mixer )

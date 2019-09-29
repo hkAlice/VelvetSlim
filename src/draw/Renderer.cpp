@@ -41,7 +41,7 @@ Velvet::Renderer::Renderer( SDL_Renderer *sdlRenderer )
    m_texture = SDL_CreateTexture
         (
             m_sdlRenderer,
-            SDL_PIXELFORMAT_ARGB8888,
+            SDL_PIXELFORMAT_ABGR8888,
             SDL_TEXTUREACCESS_TARGET,
             VRENDER_WIDTH, VRENDER_HEIGHT
         );
@@ -87,6 +87,11 @@ void Velvet::Renderer::drawPixel( int x, int y, Pixel& pixel )
 
     const int offset = ( VRENDER_WIDTH * y ) + x;
     memcpy( m_buffer.data() + offset, &pixel, sizeof( Pixel ) );
+}
+
+void Velvet::Renderer::fastCopyScanline( uint32_t y, const void* src, size_t count )
+{
+   memcpy( m_buffer.data() + ( VRENDER_WIDTH * y ), src, count );
 }
 
 /*

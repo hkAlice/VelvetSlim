@@ -9,8 +9,8 @@ namespace Velvet
     class Music : public IResource
     {
     public:
-        Music( Mix_Music* music )
-        : m_music( music ) 
+        Music( const std::string& resName, Mix_Music* music )
+            : IResource( resName ), m_music( music )
         {
             Mix_PlayMusic( music, -1 );
         };

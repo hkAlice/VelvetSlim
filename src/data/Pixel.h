@@ -9,6 +9,8 @@ namespace Velvet
          : integer(0) { }
       Pixel( uint32_t pixel32 )
          : integer( pixel32 ) { }
+      Pixel( SDL_Color* sdlColor )
+         : b( sdlColor->b ), g( sdlColor->g ), r( sdlColor->r ) { }
 
       Pixel( uint8_t bi, uint8_t gi, uint8_t ri, uint8_t ai = 255 )
       {
@@ -22,7 +24,7 @@ namespace Velvet
 
       struct
       {
-         uint8_t b, g, r, a;
+         uint8_t a, r, g, b;
       };
 
    };

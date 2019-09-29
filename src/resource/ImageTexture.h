@@ -8,8 +8,8 @@ namespace Velvet
     class ImageTexture : public IResource
     {
     public:
-       ImageTexture( SDL_Texture* texture )
-        : m_texture( texture ) 
+       ImageTexture( const std::string& resName, SDL_Texture* texture )
+          : IResource( resName ), m_texture( texture )
         {
             m_rect.x = 0;
             m_rect.y = 0;

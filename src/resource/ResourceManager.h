@@ -35,6 +35,15 @@ namespace Velvet
         template< class T >
         std::shared_ptr< T > get( const std::string& handle );
 
+        void remove( const std::string& handle )
+        {
+            auto it = m_resourceMap.find( handle );
+            if( it != m_resourceMap.end() )
+            {
+               m_resourceMap.erase( handle );
+            }
+        }
+
         bool add( const std::string& handle, ResourcePtr resource )
         {
             auto it = m_resourceMap.find( handle );
@@ -47,6 +56,7 @@ namespace Velvet
             m_resourceMap.emplace( handle, resource );
             return true;
         }
+
 
     private:
 
@@ -83,7 +93,7 @@ std::shared_ptr< Velvet::Image > Velvet::ResourceManager::get< Velvet::Image >( 
 
     auto pImage = Velvet::Loader::loadImage( "res/img/" + handle );
 
-    auto pImageRes = std::make_shared< Velvet::Image >( pImage );
+    auto pImageRes = std::make_shared< Velvet::Image >( handle, pImage );
     
     // todo: Velvet::ResourceManager::add 
     m_resourceMap.emplace( handle, std::dynamic_pointer_cast< IResource, Image >( pImageRes ) );
@@ -98,12 +108,11 @@ std::shared_ptr< Velvet::Music > Velvet::ResourceManager::get< Velvet::Music >( 
 
     auto pMusic = Velvet::Loader::loadMusic( "res/mus/" + handle );
 
-    auto pMusicRes = std::make_shared< Velvet::Music >( pMusic );
+    auto pMusicRes = std::make_shared< Velvet::Music >( handle, pMusic );
 
     // todo: Velvet::ResourceManager::add 
     m_resourceMap.emplace( handle, std::dynamic_pointer_cast< IResource, Music >( pMusicRes ) );
     return pMusicRes;
 }
-
 
 #endif // _RESOURCEMANAGER

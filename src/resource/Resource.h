@@ -8,11 +8,20 @@ namespace Velvet
     class IResource
     {
     public:
-        IResource(){};
+        IResource( const std::string& resName )
+           : m_resName( resName ) {};
         virtual ~IResource() = default;
 
-    private:
+        const std::string& getName()
+        {
+           return m_resName;
+        }
 
+    protected:
+        const std::string m_resName;
+
+    private:
+       
     };
 }
 

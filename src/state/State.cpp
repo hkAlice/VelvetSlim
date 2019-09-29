@@ -1,6 +1,7 @@
 ﻿#include "../logger/Logger.h"
 #include <cmath>
 #include <math.h>
+#include <iomanip>
 #include "State.h"
 #include "../draw/ColorUtils.h"
 
@@ -97,11 +98,34 @@ void Velvet::State::initWorld()
   //m_pObjects.push_back( fractal );
 
   auto imgTest = std::make_shared< Velvet::Object >();
+  static uint32_t idx = 1;
+
+  static std::vector< ResourcePtr > imgRes;
+
   imgTest->setWorkFunction( [&]()
   {
-      Logger::info( "awaa" );
-      auto pImg = m_resMgr.get< Velvet::Image >( "yo000205.bmp" );
+      // todo: each obj has its stored res pts
+      
+      if( idx % 10 == 0 )
+      {
+         for( const auto& pRes : imgRes )
+         {
+            m_resMgr.remove( pRes->getName() );
+         }
+
+         imgRes.clear();
+      }
+
+      std::ostringstream ss;
+      ss << std::setw( 3 ) << std::setfill( '0' ) << idx;
+      std::string str = ss.str();
+
+      auto pImg = m_resMgr.get< Velvet::Image >( "outpng/" + str + ".png" );
 	   m_vRenderer.drawImage( pImg );
+
+      imgRes.push_back( pImg );
+
+      idx++;
   });
 
   m_pObjects.push_back( imgTest );

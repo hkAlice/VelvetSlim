@@ -4,6 +4,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include "../resource/Resource.h"
 
 namespace Velvet
 {

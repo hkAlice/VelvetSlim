@@ -2,14 +2,15 @@
 #define _SPRITERESOURCE
 
 #include "Resource.h"
+#include "../logger/Logger.h"
 
 namespace Velvet
 {
     class Image : public IResource
     {
     public:
-       Image( SDL_Surface* surface )
-        : m_surface(surface)
+       Image( const std::string& resName, SDL_Surface* surface )
+          : IResource( resName ), m_surface(surface)
         {
             m_rect.x = 0;
             m_rect.y = 0;

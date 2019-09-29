@@ -12,8 +12,8 @@
 #include "../resource/Image.h"
 
 // TODO: Remove all references to SDL renderer, only use window
-static constexpr int VRENDER_WIDTH  = 1650;
-static constexpr int VRENDER_HEIGHT = 1050;
+static constexpr uint32_t VRENDER_WIDTH  = 1650;
+static constexpr uint32_t VRENDER_HEIGHT = 1050;
 
 namespace Velvet
 {
@@ -38,6 +38,8 @@ namespace Velvet
         void render();
 
     private:
+
+        void fastCopyScanline( uint32_t y, const void* src, size_t count );
 
         std::vector< Pixel > m_buffer;
 

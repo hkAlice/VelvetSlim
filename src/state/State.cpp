@@ -93,6 +93,7 @@ void Velvet::State::initWorld()
 
     if( controlTime > 400 )
        controlTime = 0;
+
   });
 
   //m_pObjects.push_back( fractal );

@@ -40,6 +40,7 @@ namespace Velvet
     private:
 
         void fastCopyScanline( uint32_t y, const void* src, size_t count );
+        void copyScanline( uint32_t y, const void* src, size_t count );
 
         std::vector< Pixel > m_buffer;
 

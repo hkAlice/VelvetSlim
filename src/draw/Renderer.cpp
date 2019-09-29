@@ -94,6 +94,17 @@ void Velvet::Renderer::fastCopyScanline( uint32_t y, const void* src, size_t cou
    memcpy( m_buffer.data() + ( VRENDER_WIDTH * y ), src, count );
 }
 
+void Velvet::Renderer::copyScanline( uint32_t y, const void* src, size_t count )
+{
+   if( count / sizeof( Velvet::Pixel ) >= VRENDER_WIDTH )
+      count = VRENDER_WIDTH * sizeof( Velvet::Pixel );
+
+   if( y >= VRENDER_HEIGHT || y < 0 )
+       return;
+
+   memcpy( m_buffer.data() + ( VRENDER_WIDTH * y ), src, count );
+}
+
 /*
 void Velvet::Renderer::drawLine( Vec2Int p0, Vec2Int p1, Pixel color )
 {

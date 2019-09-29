@@ -34,10 +34,10 @@ void Velvet::Renderer::drawImage( ImagePtr pImage )
    size_t scanlineWidth = sizeof( uint32_t ) * pSurface->w;
    size_t pitchLine = pSurface->pitch / sizeof( uint32_t );
 
-   for ( int y = 0; y <= pSurface->h; ++y )
+   for ( int y = 0; y < pSurface->h; ++y )
    {
       
-      fastCopyScanline( y, &ptr[y * pitchLine], scanlineWidth );
+      copyScanline( y, &ptr[y * pitchLine], scanlineWidth );
 
       /*
       for ( int x = 0; x <= pSurface->w; ++x )
@@ -48,7 +48,7 @@ void Velvet::Renderer::drawImage( ImagePtr pImage )
 
          //SDL_Color color = pSurface->format->palette->colors[index];
 
-         p = ptr[lineoffset + x];
+         p = ptr[(y * pitchLine) + x];
 
          drawPixel( x, y, p );
       }*/

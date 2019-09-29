@@ -37,7 +37,7 @@ void Velvet::Renderer::drawImage( ImagePtr pImage )
    for ( int y = 0; y < pSurface->h; ++y )
    {
       
-      copyScanline( y, &ptr[y * pitchLine], scanlineWidth );
+      fastCopyScanline( y, &ptr[y * pitchLine], scanlineWidth );
 
       /*
       for ( int x = 0; x <= pSurface->w; ++x )

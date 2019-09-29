@@ -121,7 +121,7 @@ void Velvet::State::initWorld()
       ss << std::setw( 3 ) << std::setfill( '0' ) << idx;
       std::string str = ss.str();
 
-      auto pImg = m_resMgr.get< Velvet::Image >( "outpng/" + str + ".png" );
+      auto pImg = m_resMgr.get< Velvet::Image >( "outpng32/" + str + ".png" );
 	   m_vRenderer.drawImage( pImg );
 
       imgRes.push_back( pImg );

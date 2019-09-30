@@ -3,9 +3,9 @@ A slimmed down and experimental VelvetRenderer (software renderer)
 
 ## Requirements
 
-C++17
-SDL2 (used for crossplatform buffer)
-CMake
+* C++17
+* SDL2 (used for crossplatform buffer)
+* CMake
 
 ## Features
 * Rasterize primitives, with colors, alpha and gradients

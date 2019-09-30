@@ -74,7 +74,7 @@ void Velvet::Renderer::render()
     SDL_RenderCopy( m_sdlRenderer, m_texture, NULL, NULL );
     SDL_RenderPresent( m_sdlRenderer );
 
-    //memset( m_buffer.data(), 0, sizeof( Pixel ) * VRENDER_WIDTH * VRENDER_HEIGHT );
+    memset( m_buffer.data(), 0, sizeof( Pixel ) * VRENDER_WIDTH * VRENDER_HEIGHT );
     memset( m_zbuffer.data(), std::numeric_limits< float >::min(), sizeof( float ) * VRENDER_WIDTH * VRENDER_HEIGHT );
     //std::fill( m_buffer.begin(), m_buffer.end(), 0 );
 

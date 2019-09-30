@@ -11,7 +11,7 @@ namespace Velvet::Loader
 {
 	static SDL_Surface* loadImage( const std::string& path )
 	{
-        Logger::info( "Loading image " + path );
+        //Logger::info( "Loading image " + path );
 
         SDL_Surface* pImage = IMG_Load( path.c_str() );
         if( !pImage )

@@ -48,6 +48,8 @@ namespace Velvet
 
         private:
 
+        void testVecMov();
+        
         void renderObjects( const float frametime );
         void renderModels();
 

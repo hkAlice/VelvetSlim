@@ -27,6 +27,46 @@ Velvet::State::~State()
 
 }
 
+void Velvet::State::testVecMov()
+{
+  static std::string extension = ".png";
+
+  auto imgTest = std::make_shared< Velvet::Object >();
+  //static uint32_t idx = 1;
+  static uint32_t idx = 7350;
+
+  static std::vector< ResourcePtr > imgRes;
+
+  imgTest->setWorkFunction( [&]()
+  {
+      // todo: each obj has its stored res pts
+      
+      if( idx % 10 == 0 )
+      {
+         for( const auto& pRes : imgRes )
+         {
+            m_resMgr.remove( pRes->getName() );
+         }
+
+         imgRes.clear();
+      }
+
+      std::ostringstream ss;
+      ss << std::setw( 3 ) << std::setfill( '0' ) << idx;
+      std::string str = ss.str();
+
+      //auto pImg = m_resMgr.get< Velvet::Image >( "outmm32/" + str + extension );
+      auto pImg = m_resMgr.get< Velvet::Image >( "outbd32/" + str + extension );
+      m_vRenderer.drawImage( pImg );
+
+      imgRes.push_back( pImg );
+
+      idx++;
+  });
+
+  m_pObjects.push_back( imgTest );
+}
+
 void Velvet::State::initWorld()
 {
 /*
@@ -55,6 +95,7 @@ void Velvet::State::initWorld()
     m_pObjects.push_back( boxTestObj );
   }*/
   static float controlTime = 0.f;
+  static std::string extension = ".png";
 
   Velvet::ObjectPtr fractal = std::make_shared< Velvet::Object >();
   fractal->setWorkFunction( [&]()
@@ -80,7 +121,7 @@ void Velvet::State::initWorld()
        }
        else 
        {
-          Pixel c1 = { 128, 0, 255, 255 };//Velvet::ColorUtils::randomPixelColor();
+          Pixel c1 = { 255, 128, 0, 255 };//Velvet::ColorUtils::randomPixelColor();
           Vec2Int p1 = { ( int )fx, ( int )fy };
           Vec2Int p2 = { ( int )( fx + ( length * std::cos( degToRad( alpha ) ) ) ), ( int )( fy + ( length * std::sin( degToRad( alpha ) ) ) ) };
           m_vRenderer.drawLine( p1, p2, c1 );
@@ -89,17 +130,16 @@ void Velvet::State::initWorld()
 
     c_curve( 400, 280, 720, 0, (int)controlTime % 17 );
 
-    controlTime += 0.15;
+    controlTime += 0.10;
 
-    if( controlTime > 400 )
+    if( controlTime > 50 )
        controlTime = 0;
 
   });
 
-  //m_pObjects.push_back( fractal );
-
   auto imgTest = std::make_shared< Velvet::Object >();
   static uint32_t idx = 1;
+  //static uint32_t idx = 7200;
 
   static std::vector< ResourcePtr > imgRes;
 
@@ -121,15 +161,42 @@ void Velvet::State::initWorld()
       ss << std::setw( 3 ) << std::setfill( '0' ) << idx;
       std::string str = ss.str();
 
-      auto pImg = m_resMgr.get< Velvet::Image >( "outpng32/" + str + ".png" );
-	   m_vRenderer.drawImage( pImg );
+      auto pImg = m_resMgr.get< Velvet::Image >( "outmm32/" + str + extension );
+      //auto pImg = m_resMgr.get< Velvet::Image >( "outbd32/" + str + extension );
+	    m_vRenderer.drawImage( pImg );
 
       imgRes.push_back( pImg );
 
       idx++;
   });
 
-  m_pObjects.push_back( imgTest );
+  auto staticEffect = std::make_shared< Velvet::Object >();
+  staticEffect->setWorkFunction( [&]()
+  {
+
+    for ( int y = 0; y < 1050; ++y )
+    {
+      for ( int x = 0; x < 1650; ++x )
+      {
+        Pixel randWhiteBlack;
+        if( rand() % 2 == 0 )
+          randWhiteBlack = { 255, 255, 255, 255 };
+        else
+          randWhiteBlack = { 0, 0, 0, 0 };
+
+        m_vRenderer.drawPixel( x, y, randWhiteBlack );
+      }
+   }
+  });
+
+  //m_pObjects.push_back( imgTest );
+  m_pObjects.push_back( fractal );
+
+  //m_pObjects.push_back( staticEffect );
+
+  //testVecMov();
+
+  //loadModel("4.obj");
   
 }
 
@@ -141,15 +208,6 @@ void Velvet::State::loadModel( const std::string& path )
 
   Velvet::Parser::WaveModel model = Velvet::Parser::WaveModel( path );
   m_models.push_back( model );
-
-  /*
-  for( int i = 0; i < 4; ++i )
-  {
-    //Logger::info( "Render thread [" + std::to_string( i ) + "] has started" );
-    m_threads.push_back( std::thread( &Velvet::State::executeFaceQuadrantThreadWork, this, i ) );
-
-    //m_threads[i].detach();
-  }*/
 }
 
 
@@ -220,7 +278,7 @@ void Velvet::State::executeCommandList( float frametime )
   m_currFrame++;
 
   renderObjects( frametime );
-  //renderModels();
+  renderModels();
 
   //m_renderPool.cycle( m_pObjects );
 }

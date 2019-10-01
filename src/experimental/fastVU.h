@@ -1,6 +1,9 @@
 #include <immintrin.h>
 #include <cstdint>
 
+static unsigned int g_seed;
+
+/*
 int f_memcmp(const void *p1, const void *p2, size_t n)
 {
     size_t i;
@@ -11,6 +14,17 @@ int f_memcmp(const void *p1, const void *p2, size_t n)
     for (i = 0; (i < n) && (*(uint8_t *)p1 == *(uint8_t *)p2);
         i++, p1 = 1 + (uint8_t *)p1, p2 = 1 + (uint8_t *)p2);
     return (i == n) ? 0 : (*(uint8_t *)p1 - *(uint8_t *)p2);
+}*/
+
+inline void fast_srand(int seed)
+{
+   g_seed = seed;
+}
+
+inline int fastrand()
+{
+   g_seed = (214013 * g_seed + 2531011);
+   return (g_seed >> 16) & 0x7FFF;
 }
 
 /*

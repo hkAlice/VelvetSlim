@@ -9,6 +9,8 @@ namespace Velvet
          : integer(0) { }
       Pixel( uint32_t pixel32 )
          : integer( pixel32 ) { }
+      Pixel( const uint32_t& pixel32 )
+         : integer( pixel32 ) { }
       Pixel( SDL_Color* sdlColor )
          : b( sdlColor->b ), g( sdlColor->g ), r( sdlColor->r ) { }
 

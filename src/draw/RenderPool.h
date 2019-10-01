@@ -26,7 +26,7 @@ namespace Velvet
 
         const uint64_t m_maxWaitTimeout = 100000;
 
-        uint64_t m_threadCount{ 4 }; // get hw threadcount and/or pass as arg to ctor
+        uint64_t m_threadCount{ 8 }; // get hw threadcount and/or pass as arg to ctor
 
         std::vector< std::thread > m_threads;
         std::vector< RenderThread > m_renderTh;

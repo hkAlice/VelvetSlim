@@ -4,6 +4,7 @@
 #include <iomanip>
 #include "State.h"
 #include "../draw/ColorUtils.h"
+#include "../experimental/fastVU.h"
 
 #define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0)
 #define radToDeg(angleInRadians) ((angleInRadians) * 180.0 / M_PI)
@@ -173,26 +174,28 @@ void Velvet::State::initWorld()
   auto staticEffect = std::make_shared< Velvet::Object >();
   staticEffect->setWorkFunction( [&]()
   {
+    uint32_t arrRand[1280];
+    Pixel randWhiteBlack;
 
-    for ( int y = 0; y < 1050; ++y )
+    for ( int y = 0; y < 720; ++y )
     {
-      for ( int x = 0; x < 1650; ++x )
+      for ( int x = 0; x < 1280; ++x )
       {
-        Pixel randWhiteBlack;
-        if( rand() % 2 == 0 )
-          randWhiteBlack = { 255, 255, 255, 255 };
+        
+        if( fastrand() % 2 == 0 )
+          arrRand[x] = -1;
         else
-          randWhiteBlack = { 0, 0, 0, 0 };
-
-        m_vRenderer.drawPixel( x, y, randWhiteBlack );
+          arrRand[x] = 0;
       }
+
+      m_vRenderer.fastCopyScanline( y, arrRand, 1280 * 4 );
    }
   });
 
   //m_pObjects.push_back( imgTest );
-  m_pObjects.push_back( fractal );
+  //m_pObjects.push_back( fractal );
 
-  //m_pObjects.push_back( staticEffect );
+  m_pObjects.push_back( staticEffect );
 
   //testVecMov();
 

@@ -82,11 +82,16 @@ void Velvet::Renderer::render()
 
 void Velvet::Renderer::drawPixel( int x, int y, Pixel& pixel )
 {
-    if( x >= VRENDER_WIDTH || x < 0 || y >= VRENDER_HEIGHT || y < 0 )
+   if( x >= VRENDER_WIDTH || x < 0 || y >= VRENDER_HEIGHT || y < 0 )
         return;
 
-    const int offset = ( VRENDER_WIDTH * y ) + x;
-    memcpy( m_buffer.data() + offset, &pixel, sizeof( Pixel ) );
+   const int offset = ( VRENDER_WIDTH * y ) + x;
+   memcpy( m_buffer.data() + offset, &pixel, sizeof( Pixel ) );
+}
+
+void Velvet::Renderer::fastDrawPixel( int x, int y, Pixel& pixel )
+{
+   memcpy( m_buffer.data() + ( VRENDER_WIDTH * y ) + x, &pixel, 4 );
 }
 
 void Velvet::Renderer::fastCopyScanline( uint32_t y, const void* src, size_t count )

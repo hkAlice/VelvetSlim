@@ -34,7 +34,7 @@ void Velvet::State::testVecMov()
 
   auto imgTest = std::make_shared< Velvet::Object >();
   //static uint32_t idx = 1;
-  static uint32_t idx = 7350;
+  static uint32_t idx = 0;
 
   static std::vector< ResourcePtr > imgRes;
 
@@ -57,7 +57,7 @@ void Velvet::State::testVecMov()
       std::string str = ss.str();
 
       //auto pImg = m_resMgr.get< Velvet::Image >( "outmm32/" + str + extension );
-      auto pImg = m_resMgr.get< Velvet::Image >( "outbd32/" + str + extension );
+      auto pImg = m_resMgr.get< Velvet::Image >( "outmm32/" + str + extension );
       m_vRenderer.drawImage( pImg );
 
       imgRes.push_back( pImg );
@@ -188,14 +188,14 @@ void Velvet::State::initWorld()
           arrRand[x] = 0;
       }
 
-      m_vRenderer.fastCopyScanline( y, arrRand, 1280 * 4 );
+      m_vRenderer.copyScanline( y, arrRand, 1280 * 4 );
    }
   });
 
   //m_pObjects.push_back( imgTest );
-  //m_pObjects.push_back( fractal );
+  m_pObjects.push_back( fractal );
 
-  m_pObjects.push_back( staticEffect );
+  //m_pObjects.push_back( staticEffect );
 
   //testVecMov();
 

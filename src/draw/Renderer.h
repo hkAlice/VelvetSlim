@@ -9,6 +9,7 @@
 #include "../data/Vec2Int.h"
 #include "../data/Vec2.h"
 #include "../data/Vec3.h"
+#include "../data/Vec4Int.h"
 #include "../resource/Image.h"
 
 // TODO: Remove all references to SDL renderer, only use window
@@ -35,12 +36,25 @@ namespace Velvet
 
         void drawTriangle( Vec3& v0, Vec3& v1, Vec3& v2, Pixel& color );
 
+        void drawBox( Vec2Int p0, Vec2Int p1, Pixel color );
+        void drawBox( Vec4Int p0, Pixel color );
+
         void drawImage( ImagePtr pImage );
 
         void fastCopyScanline(uint32_t y, const void* src, size_t count);
         void copyScanline(uint32_t y, const void* src, size_t count);
 
         void render();
+
+        // TODO: private + getset clipmask
+
+        Vec4Int& getClipMask();
+
+        void setClipMode( bool mode );
+        void setClipInvert( bool invert );
+
+        bool getClipMode() const;
+        bool getClipInvert() const;
 
     private:
 
@@ -50,6 +64,11 @@ namespace Velvet
 
         SDL_Renderer* m_sdlRenderer;
         SDL_Texture*  m_texture;
+
+        Vec4Int m_clipMask{ 150, VRENDER_HEIGHT - 100, VRENDER_WIDTH - 600, 50 };
+        bool m_isClipping{ true };
+        bool m_clipInvert{ true };
+
 
     };
 

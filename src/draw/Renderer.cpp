@@ -62,6 +62,29 @@ SDL_Renderer* Velvet::Renderer::getInternalRenderer()
 
 void Velvet::Renderer::render()
 {
+    if( m_isClipping )
+    {
+      for ( int y = 0; y < VRENDER_HEIGHT; ++y )
+      {
+        for ( int x = 0; x < VRENDER_WIDTH; ++x )
+        {
+          const int offset = ( VRENDER_WIDTH * y ) + x;
+          if( m_clipInvert )
+          {
+            if( x <= m_clipMask.x2 && x > m_clipMask.x1 && y <= m_clipMask.y1 && y > m_clipMask.y2 )
+              m_buffer[offset] = Pixel{ 0, 0, 0, 0 };
+          }
+          else
+          {
+            if( x >= m_clipMask.x2 || x < m_clipMask.x1 || y >= m_clipMask.y1 || y < m_clipMask.y2 )
+              m_buffer[offset] = Pixel{ 0, 0, 0, 0 };
+          }
+          
+        }
+      }
+
+      drawBox( { m_clipMask.x1, m_clipMask.y1 }, { m_clipMask.x2, m_clipMask.y2 }, { 255, 0, 0, 255 } );
+    }
 
     SDL_UpdateTexture
         (
@@ -76,14 +99,12 @@ void Velvet::Renderer::render()
 
     memset( m_buffer.data(), 0, sizeof( Pixel ) * VRENDER_WIDTH * VRENDER_HEIGHT );
     memset( m_zbuffer.data(), std::numeric_limits< float >::min(), sizeof( float ) * VRENDER_WIDTH * VRENDER_HEIGHT );
-    //std::fill( m_buffer.begin(), m_buffer.end(), 0 );
-
 }
 
 void Velvet::Renderer::drawPixel( int x, int y, Pixel& pixel )
 {
    if( x >= VRENDER_WIDTH || x < 0 || y >= VRENDER_HEIGHT || y < 0 )
-        return;
+      return;
 
    const int offset = ( VRENDER_WIDTH * y ) + x;
    memcpy( m_buffer.data() + offset, &pixel, sizeof( Pixel ) );

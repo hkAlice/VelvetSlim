@@ -283,3 +283,19 @@ void Velvet::Renderer::drawTriangle( Vec3& v0, Vec3& v1, Vec3& v2, Pixel& color 
    }
 
 }
+
+void Velvet::Renderer::drawBox( Vec2Int p0, Vec2Int p1, Pixel color )
+{
+  drawLine( { p0.x, p0.y }, { p0.x, p1.y }, color );
+  drawLine( { p0.x, p1.y }, { p1.x, p1.y }, color );
+  drawLine( { p1.x, p1.y }, { p1.x, p0.y }, color );
+  drawLine( { p1.x, p0.y }, { p0.x, p0.y }, color );
+}
+
+void Velvet::Renderer::drawBox( Vec4Int p0, Pixel color )
+{
+  drawLine( { p0.x1, p0.y1 }, { p0.x1, p0.y2 }, color );
+  drawLine( { p0.x1, p0.y2 }, { p0.x2, p0.y2 }, color );
+  drawLine( { p0.x2, p0.y2 }, { p0.x2, p0.y1 }, color );
+  drawLine( { p0.x2, p0.y1 }, { p0.x1, p0.y1 }, color );
+}

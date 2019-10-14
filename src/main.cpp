@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 #include <SDL.h>
 #include "../libs/termcolor/termcolor.hpp"
@@ -92,13 +93,6 @@ int main( int argc, char *argv[] )
       SDL_SetWindowTitle( window, ( windowTitle + " [" + std::to_string( ( int )( framespersecond ) ) + "]" ).c_str() );
       timerSecond = getticks;
     }
-    // todo: add FPS limit (--fps-target=XX)
-    /*
-       int sleepTime = 4;
-       if( sleepTime > 0 )
-       {
-          SDL_Delay( sleepTime );
-       }*/
 
     SDL_Event e;
     while( SDL_PollEvent( &e ) != 0 )
@@ -111,19 +105,82 @@ int main( int argc, char *argv[] )
       {
         switch( e.key.keysym.sym )
         {
-          case SDLK_w:    vState.camera.y+=100; break;
-          case SDLK_s:    vState.camera.y-=100; break;
-          case SDLK_a:    vState.camera.x+=100; break;
-          case SDLK_d:    vState.camera.x-=100; break;
+          case SDLK_w:
+          {
+            vState.camera.y+=100;
+            vRenderer.getClipMask().y1 += -1;
+            vRenderer.getClipMask().y2 += -1;
+            break;
+          }
+          case SDLK_s:
+          {
+            vState.camera.y-=100;
+
+            vRenderer.getClipMask().y1 += 1;
+            vRenderer.getClipMask().y2 += 1;
+            break;
+          }
+          case SDLK_a:
+          {
+            vState.camera.x+=100;
+
+            vRenderer.getClipMask().x1 += -1;
+            vRenderer.getClipMask().x2 += -1;
+            break;
+          }
+          case SDLK_d:
+          {
+            vState.camera.x-=100;
+
+            vRenderer.getClipMask().x1 += 1;
+            vRenderer.getClipMask().x2 += 1;
+            break;
+          }
           case SDLK_z:   vState.camera.z+=0.1f; break;
           case SDLK_x: vState.camera.z-=0.1f; break;
-          case SDLK_KP_1:   vState.camera.distortion += 1.f; break;
+          case SDLK_KP_1:   
+          {
+            vState.camera.distortion += 1.f;
+            break;
+          }
           case SDLK_KP_3: vState.camera.distortion -= 1.f; break;
           case SDLK_KP_4:   vState.camera.pitch += 0.1f; break;
           case SDLK_KP_6: vState.camera.pitch -= 0.1f; break;
-          case SDLK_LEFT:   vState.camera.z += 0.1f; break;
-          case SDLK_RIGHT: vState.camera.z -= 0.1f; break;
-          case SDLK_c:    vState.lightPos-=0.1f; break;
+          case SDLK_UP:   
+          {
+            vRenderer.getClipMask().y2 += -1;
+            break;
+          }
+          case SDLK_DOWN:   
+          {
+            vRenderer.getClipMask().y1 += 1;
+            break;
+          }
+          case SDLK_LEFT:   
+          {
+            vRenderer.getClipMask().x1 += 1;
+
+            vState.camera.z += 0.1f;
+            break;
+          }
+          case SDLK_RIGHT:   
+          {
+            vRenderer.getClipMask().x2 += 1;
+
+            vState.camera.z -= 0.1f;
+            break;
+          }
+          case SDLK_i:
+          {
+            vRenderer.setClipInvert( !vRenderer.getClipInvert() );
+            break;
+          }
+          case SDLK_c:
+          {
+            vRenderer.setClipMode( !vRenderer.getClipMode() );
+            vState.lightPos-=0.1f;
+            break;
+          }
           case SDLK_v:    vState.lightPos+=0.1f; break;
         }
       }

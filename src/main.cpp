@@ -108,32 +108,32 @@ int main( int argc, char *argv[] )
           case SDLK_w:
           {
             vState.camera.y+=100;
-            vRenderer.getClipMask().y1 += -1;
-            vRenderer.getClipMask().y2 += -1;
+            vRenderer.getClipMask().y += -1;
+            vRenderer.getClipMask().w += -1;
             break;
           }
           case SDLK_s:
           {
             vState.camera.y-=100;
 
-            vRenderer.getClipMask().y1 += 1;
-            vRenderer.getClipMask().y2 += 1;
+            vRenderer.getClipMask().y += 1;
+            vRenderer.getClipMask().w += 1;
             break;
           }
           case SDLK_a:
           {
             vState.camera.x+=100;
 
-            vRenderer.getClipMask().x1 += -1;
-            vRenderer.getClipMask().x2 += -1;
+            vRenderer.getClipMask().x += -1;
+            vRenderer.getClipMask().z += -1;
             break;
           }
           case SDLK_d:
           {
             vState.camera.x-=100;
 
-            vRenderer.getClipMask().x1 += 1;
-            vRenderer.getClipMask().x2 += 1;
+            vRenderer.getClipMask().x += 1;
+            vRenderer.getClipMask().z += 1;
             break;
           }
           case SDLK_z:   vState.camera.z+=0.1f; break;
@@ -148,24 +148,24 @@ int main( int argc, char *argv[] )
           case SDLK_KP_6: vState.camera.pitch -= 0.1f; break;
           case SDLK_UP:   
           {
-            vRenderer.getClipMask().y2 += -1;
+            vRenderer.getClipMask().w += -1;
             break;
           }
           case SDLK_DOWN:   
           {
-            vRenderer.getClipMask().y1 += 1;
+            vRenderer.getClipMask().y += 1;
             break;
           }
           case SDLK_LEFT:   
           {
-            vRenderer.getClipMask().x1 += 1;
+            vRenderer.getClipMask().x += 1;
 
             vState.camera.z += 0.1f;
             break;
           }
           case SDLK_RIGHT:   
           {
-            vRenderer.getClipMask().x2 += 1;
+            vRenderer.getClipMask().z += 1;
 
             vState.camera.z -= 0.1f;
             break;

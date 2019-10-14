@@ -71,19 +71,19 @@ void Velvet::Renderer::render()
           const int offset = ( VRENDER_WIDTH * y ) + x;
           if( m_clipInvert )
           {
-            if( x <= m_clipMask.x2 && x > m_clipMask.x1 && y <= m_clipMask.y1 && y > m_clipMask.y2 )
+            if( x <= m_clipMask.z && x > m_clipMask.x && y <= m_clipMask.y && y > m_clipMask.w )
               m_buffer[offset] = Pixel{ 0, 0, 0, 0 };
           }
           else
           {
-            if( x >= m_clipMask.x2 || x < m_clipMask.x1 || y >= m_clipMask.y1 || y < m_clipMask.y2 )
+            if( x >= m_clipMask.z || x < m_clipMask.x || y >= m_clipMask.y || y < m_clipMask.w )
               m_buffer[offset] = Pixel{ 0, 0, 0, 0 };
           }
           
         }
       }
 
-      drawBox( { m_clipMask.x1, m_clipMask.y1 }, { m_clipMask.x2, m_clipMask.y2 }, { 255, 0, 0, 255 } );
+      drawBox( { m_clipMask.x, m_clipMask.y }, { m_clipMask.z, m_clipMask.w }, { 255, 0, 0, 255 } );
     }
 
     SDL_UpdateTexture

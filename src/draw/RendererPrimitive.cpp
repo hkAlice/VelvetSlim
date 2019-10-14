@@ -294,8 +294,8 @@ void Velvet::Renderer::drawBox( Vec2Int p0, Vec2Int p1, Pixel color )
 
 void Velvet::Renderer::drawBox( Vec4Int p0, Pixel color )
 {
-  drawLine( { p0.x1, p0.y1 }, { p0.x1, p0.y2 }, color );
-  drawLine( { p0.x1, p0.y2 }, { p0.x2, p0.y2 }, color );
-  drawLine( { p0.x2, p0.y2 }, { p0.x2, p0.y1 }, color );
-  drawLine( { p0.x2, p0.y1 }, { p0.x1, p0.y1 }, color );
+  drawLine( { p0.x, p0.y }, { p0.x, p0.w }, color );
+  drawLine( { p0.x, p0.y }, { p0.z, p0.w }, color );
+  drawLine( { p0.z, p0.w }, { p0.z, p0.y }, color );
+  drawLine( { p0.z, p0.y }, { p0.x, p0.y }, color );
 }

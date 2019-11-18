@@ -74,7 +74,7 @@ file( GLOB VELVET_SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 
-add_executable( velvet ${VELVET_INCLUDE_FILES} ${VELVET_SOURCE_FILES} )
+add_library( velvet SHARED ${VELVET_INCLUDE_FILES} ${VELVET_SOURCE_FILES} )
 
 target_include_directories( velvet PUBLIC ../${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories( velvet PUBLIC ${SDL2_INCLUDE_DIR} )

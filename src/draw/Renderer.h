@@ -72,6 +72,8 @@ namespace Velvet
 
     };
 
+    using RendererPtr = std::shared_ptr< Renderer >;
+
 }
 
 #endif // _RENDERER

@@ -66,6 +66,8 @@ namespace Velvet
 
         Velvet::ResourceManager m_resMgr{ m_vRenderer.getInternalRenderer() };
     };
+
+    using StatePtr = std::shared_ptr< State >;
 }
 
 
